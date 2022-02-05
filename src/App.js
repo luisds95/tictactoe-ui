@@ -1,5 +1,6 @@
 import './App.css';
-import Board from './game/board';
+import React from 'react';
+import Game from './game/game';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
         <h1>Play TicTacToe!</h1>
       </header>
       <section id="Game">
-        <Board />
+        <Game />
       </section>
     </div>
   );
