@@ -23,15 +23,26 @@ class Board extends React.Component {
       winner: 'NA',
     };
 
-    this.humanPlayer = this.props.humanFirst ? 'X' : 'O';
-    this.aiPlayer = this.props.humanFirst ? 'O' : 'X';
+    this.humanPlayer = 'X';
+    this.aiPlayer = 'O';
 
     this.handleClick = this.handleClick.bind(this);
   }
 
-  restart() {
+  restart(humanFirst) {
+    const squares = Array(9).fill('\u2060');
+    if (humanFirst) {
+      this.humanPlayer = 'X';
+      this.aiPlayer = 'O';
+    } else {
+      this.humanPlayer = 'O';
+      this.aiPlayer = 'X';
+      const ramdomPlay = Math.floor(Math.random() * 9);
+      squares[ramdomPlay] = this.aiPlayer;
+    }
+
     this.setState({
-      squares: Array(9).fill('\u2060'),
+      squares: squares,
       winner: 'NA',
     });
   }
@@ -57,7 +68,6 @@ class Board extends React.Component {
   getActionFromServer(squares) {
     const board = this.convertSquaresToServerFormat(squares);
     const getAction = async () => {
-      console.log(`http://localho.st:5000/get-action?board=${board}`);
       const response = await fetch(`http://localho.st:5000/get-action?board=${board}`);
       return await response.json();
     };
@@ -128,7 +138,8 @@ class Board extends React.Component {
             {this.renderSquare(6, {bottom: true})}{this.renderSquare(7, {bottom: true})}{this.renderSquare(8, {right: true, bottom: true})}
           </div>
         </div>
-        <button onClick={() => this.restart()}>Reset game</button>
+        <button onClick={() => this.restart(true)}>Play X!</button>
+        <button onClick={() => this.restart(false)}>Play O!</button>
       </div>
     );
   }
