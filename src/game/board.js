@@ -21,6 +21,7 @@ class Board extends React.Component {
     this.state = {
       squares: Array(9).fill('\u2060'),
       winner: 'NA',
+      thinking: false,
     };
 
     this.humanPlayer = 'X';
@@ -48,17 +49,23 @@ class Board extends React.Component {
   }
 
   handleClick(squareIdx) {
+    console.log(process.env.NODE_ENV);
     const squares = this.state.squares.slice();
     const validMove = this.makeMove(squares, this.humanPlayer, squareIdx);
 
     if (validMove) {
-      this.setState({squares: squares, winner: 'NA'});
+      this.setState({squares: squares, winner: 'NA', thinking: true});
       this.getActionFromServer(squares);
     }
   }
 
-  makeMove(squares, player, idx) {
-    if (this.state.winner === 'NA' && idx !== null && squares[idx] === '\u2060') {
+  makeMove(squares, player, idx, overrideThinking=false) {
+    const isValid = (
+      (overrideThinking || !this.state.thinking) &&
+      this.state.winner === 'NA' &&
+      idx !== null && squares[idx] === '\u2060'
+    );
+    if (isValid) {
       squares[idx] = player;
       return true;
     }
@@ -68,16 +75,15 @@ class Board extends React.Component {
   getActionFromServer(squares) {
     const board = this.convertSquaresToServerFormat(squares);
     const getAction = async () => {
-      const response = await fetch(`http://localho.st:5000/get-action?board=${board}`);
+      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/get-action?board=${board}`);
       return await response.json();
     };
 
     const promise = getAction();
     promise.then(
         (value) => {
-          console.log(value);
-          this.makeMove(squares, this.aiPlayer, value.action);
-          this.setState({squares: squares, winner: value.result});
+          this.makeMove(squares, this.aiPlayer, value.action, true);
+          this.setState({squares: squares, winner: value.result, thinking: false});
         },
     );
   }
@@ -98,8 +104,8 @@ class Board extends React.Component {
 
   renderSquare(squareIdx, options = {}) {
     let className = 'square';
-    if (options.right) className += ' square-right';
-    if (options.bottom) className += ' square-bottom';
+    if (options.right) className += ' no-right-margin';
+    if (options.bottom) className += ' no-bottom-margin';
 
     return (
       <Square
@@ -112,7 +118,9 @@ class Board extends React.Component {
   renderTitle() {
     let title = '';
 
-    if (this.state.winner === 'NA' || !this.state.winner) {
+    if (this.state.thinking) {
+      title = `Thinking...`;
+    } else if (this.state.winner === 'NA' || !this.state.winner) {
       title = `Next player: ${this.humanPlayer}`;
     } else if (this.state.winner === 'DRAW') {
       title = 'Draw!';
@@ -129,17 +137,23 @@ class Board extends React.Component {
         <h2 className="board-title">{this.renderTitle()}</h2>
         <div className="board">
           <div className="board-row">
-            {this.renderSquare(0)}{this.renderSquare(1)}{this.renderSquare(2, {right: true})}
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2, {right: true})}
           </div>
           <div className="board-row">
-            {this.renderSquare(3)}{this.renderSquare(4)}{this.renderSquare(5, {right: true})}
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5, {right: true})}
           </div>
           <div className="board-row">
-            {this.renderSquare(6, {bottom: true})}{this.renderSquare(7, {bottom: true})}{this.renderSquare(8, {right: true, bottom: true})}
+            {this.renderSquare(6, {bottom: true})}
+            {this.renderSquare(7, {bottom: true})}
+            {this.renderSquare(8, {right: true, bottom: true})}
           </div>
         </div>
-        <button onClick={() => this.restart(true)}>Play X!</button>
-        <button onClick={() => this.restart(false)}>Play O!</button>
+        <button className="play-x-button" onClick={() => this.restart(true)}>Play X!</button>
+        <button className="play-o-button" onClick={() => this.restart(false)}>Play O!</button>
       </div>
     );
   }

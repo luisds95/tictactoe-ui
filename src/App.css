@@ -4,6 +4,9 @@
 
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .App-header {
@@ -14,6 +17,10 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: black;
+}
+
+h1 {
+  color: rgb(0, 58, 167);
 }
 
 
@@ -38,10 +45,45 @@
   background-color: white;
 }
 
-.square-right {
+.no-right-margin {
   margin-right: 0;
 }
 
-.square-bottom {
+.no-bottom-margin {
   margin-bottom: 0;
+}
+
+.play-x-button {
+  margin-top: 25px;
+  margin-right: 25px;
+  font-size: 2rem;
+  background-color: rgb(199, 219, 255);
+}
+
+.play-o-button {
+  margin-top: 25px;
+  margin-right: 0;
+  font-size: 2rem;
+  background-color: rgb(199, 219, 255);
+}
+
+/* Footer */
+footer {
+  background-color: black;
+  color: white;
+  text-align: right;
+  padding: 25px;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer a {
+  color: cornsilk;
+  text-decoration: none;
+}
+
+.spacer {
+  flex: 1;
 }
