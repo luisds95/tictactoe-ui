@@ -7,6 +7,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>Play TicTacToe!</h1>
+        <p>Play against a simple Reinforcement Learning agent that uses Exhaustive Search to find the best possible action!</p>
+        <p className="right">See on Github: <a href="https://github.com/luisds95/tictactoe-python">Agent</a>, <a href="https://github.com/luisds95/tictactoe-ui">UI</a></p>
       </header>
       <section id="Game">
         <Game />

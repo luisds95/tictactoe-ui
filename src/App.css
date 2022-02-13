@@ -19,6 +19,16 @@
   color: black;
 }
 
+.App-header p {
+  width: 80vw;
+  margin-top: 0;
+  font-size: 1.5rem;
+}
+
+.right {
+  text-align: right;
+}
+
 h1 {
   color: rgb(0, 58, 167);
 }

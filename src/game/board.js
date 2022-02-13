@@ -45,11 +45,11 @@ class Board extends React.Component {
     this.setState({
       squares: squares,
       winner: 'NA',
+      thinking: false,
     });
   }
 
   handleClick(squareIdx) {
-    console.log(process.env.NODE_ENV);
     const squares = this.state.squares.slice();
     const validMove = this.makeMove(squares, this.humanPlayer, squareIdx);
 
