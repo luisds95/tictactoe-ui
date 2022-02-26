@@ -75,7 +75,7 @@ class Board extends React.Component {
   getActionFromServer(squares) {
     const board = this.convertSquaresToServerFormat(squares);
     const getAction = async () => {
-      const response = await fetch(`${process.env.REACT_APP_DOMAIN}/get-action?board=${board}`);
+      const response = await fetch(`${process.env.REACT_APP_TICTACTOE_API}/get-action?board=${board}`);
       return await response.json();
     };
 
