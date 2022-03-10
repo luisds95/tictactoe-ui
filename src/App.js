@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import Game from './game/game';
+import About from './game/about';
 
 function App() {
   return (
@@ -13,7 +14,9 @@ function App() {
       <section id="Game">
         <Game />
       </section>
-      <div className="spacer" />
+      <section id="About">
+        <About />
+      </section>
       <footer>
         <p>App created by Luis Da Silva</p>
         <p>Checkout more content at: <a href="https://luisdasilva.io/">luisdasilva.io/</a></p>

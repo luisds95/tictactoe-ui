@@ -6,7 +6,7 @@ class Game extends React.Component {
   render() {
     return (
       <div className = "game">
-        <Board getNextAction={this.getActionFromServer} />
+        <Board />
       </div>
     );
   }

@@ -168,7 +168,6 @@ Square.propTypes = {
 
 
 Board.propTypes = {
-  getNextAction: PropTypes.func,
   humanFirst: PropTypes.bool,
 };
 
