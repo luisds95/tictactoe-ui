@@ -20,7 +20,7 @@
 }
 
 .App-header p {
-  width: 80vw;
+  width: 80%;
   margin-top: 0;
   font-size: 1.5rem;
 }
@@ -129,4 +129,11 @@ footer p {
 footer a {
   color: cornsilk;
   text-decoration: none;
+}
+
+
+@media only all and (max-width: 500px) {
+  .App-header p {
+    font-size: 1.15rem;
+  }
 }
